@@ -12,16 +12,13 @@ jobs:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     steps:
-      - name: set-up
-        uses: actions/setup-python@v5
-      - run : pip install pbr
       - uses: actions/checkout@v2
       - name: Bandit - Security Issues in Python code 
-        uses: mdegis/bandit-action@v1.0
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          path: "."
-          exit_zero: true
+        uses: PyCQA/bandit-action@v1
+        # with:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        #   path: "."
+        #   exit_zero: true
 
   semgrep:
     env:
