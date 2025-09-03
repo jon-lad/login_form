@@ -1,13 +1,22 @@
 import os
+from .utils import generate_csrf_token
 from flask import Flask
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY='super_secret_key',
+        SECRET_KEY="secret_key",
         DATABASE=os.path.join(app.instance_path, 'login_form.sqlite'),
+        SESSION_COOKIE_SAMESITE='Strict', 
+        SESSION_COOKIE_SECURE=True,        
+        SESSION_COOKIE_HTTPONLY=True 
     )
+
+    app.jinja_env.globals['csrf_token'] = generate_csrf_token
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -35,7 +44,20 @@ def create_app(test_config=None):
 
     @app.after_request
     def add_security_headers(resp):
-        resp.headers['Content-Security-Policy']='default-src \'self\''
+        resp.headers['Content-Security-Policy']=(
+            "default-src 'self'; "
+            "script-src 'self'; "
+            "style-src 'self'; "
+            "img-src 'self'; "
+            "connect-src 'self'; "
+            "frame-ancestors 'none';"
+            "form-action 'self';"
+)
+        resp.headers["X-Frame-Options"] = "DENY"
+        resp.headers["X-Content-Type-Options"] = "nosniff"
+        resp.headers["Permissions-Policy"] = "geolocation=(), microphone=()"
+        resp.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+        resp.headers["Cross-Origin-Resource-Policy"] = "same-origin"
         return resp
 
     return app

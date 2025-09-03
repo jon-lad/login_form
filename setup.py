@@ -9,6 +9,8 @@ setup(
     install_requires=[
         'flask',
         'seleniumbase',
-        'faker'
+        'faker',
+        'python-dotenv',
+        'waitress'
     ],
 )
