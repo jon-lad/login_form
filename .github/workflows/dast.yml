@@ -10,20 +10,20 @@ jobs:
     name: OWASP ZAP BASELINE SCAN
     runs-on: ubuntu-latest
     permissions:
-          actions: write
-          attestations: write
-          checks: write
-          contents: write
-          deployments: write
-          id-token: write
+          # actions: write
+          # attestations: write
+          # checks: write
+          # contents: write
+          # deployments: write
+          # id-token: write
           issues: write
-          models: read
-          discussions: write
-          packages: write
-          pages: write
-          pull-requests: write
-          security-events: write
-          statuses: write
+          # models: read
+          # discussions: write
+          # packages: write
+          # pages: write
+          # pull-requests: write
+          # security-events: write
+          # statuses: write
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
