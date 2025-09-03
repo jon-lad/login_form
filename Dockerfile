@@ -1,6 +1,12 @@
 # https://docs.docker.com/language/python/build-images/
 FROM python:3.9.6-slim-buster
 
+# Create a non-root user
+RUN adduser --disabled-password --gecos '' appuser
+
+# Switch to the new user
+USER appuser
+
 ENV FLASK_APP=login_form
 
 WORKDIR /app

@@ -1,7 +1,8 @@
 import functools
+from utils import validate_csrf_token
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, abort
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -17,6 +18,8 @@ def index():
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
+        if not validate_csrf_token(request.form.get('csrf_token')):
+            abort(403)
         username = request.form['username']
         password = request.form['password']
 

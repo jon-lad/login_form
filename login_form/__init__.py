@@ -1,4 +1,5 @@
 import os
+from utils import generate_csrf_token
 from flask import Flask
 from dotenv import load_dotenv
 
@@ -11,6 +12,8 @@ def create_app(test_config=None):
         SECRET_KEY=os.environ.get('SECRET_KEY'),
         DATABASE=os.path.join(app.instance_path, 'login_form.sqlite'),
     )
+
+    app.jinja_env.globals['csrf_token'] = generate_csrf_token
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
