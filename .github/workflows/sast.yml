@@ -13,7 +13,9 @@ jobs:
 
     steps:
       - name: set-up
-        run : sudo apt install python -y pip install pbr -y
+        run : sudo apt update
+              sudo apt install python3 -y
+              pip install pbr -y
       - uses: actions/checkout@v2
       - name: Bandit - Security Issues in Python code 
         uses: mdegis/bandit-action@v1.0
