@@ -8,17 +8,23 @@ on:
 jobs:
   bandit:
     runs-on: ubuntu-latest
+    permissions:
+        contents: read
+        security-events: write
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Bandit - Security Issues in Python code 
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # This is needed for the bandit-action to work correctly
+  
+      - name: Bandit Scan
+        id: bandit_scan
         uses: PyCQA/bandit-action@v1
-        # with:
-        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        #   path: "."
-        #   exit_zero: true
+        with:
+              targets: "."
 
   semgrep:
     env:
