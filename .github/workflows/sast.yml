@@ -8,6 +8,8 @@ on:
 jobs:
   bandit:
     runs-on: ubuntu-latest
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     steps:
       - uses: actions/checkout@v2
@@ -19,6 +21,8 @@ jobs:
           exit_zero: true
 
   semgrep:
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     runs-on: ubuntu-latest
     # Skip any PR created by dependabot to avoid permission issues
     if: (github.actor != 'dependabot[bot]')
