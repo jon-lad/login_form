@@ -39,6 +39,8 @@ def register():
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
+        if not validate_csrf_token(request.form.get('csrf_token')):
+            abort(403)
         username = request.form['username']
         password = request.form['password']
 
