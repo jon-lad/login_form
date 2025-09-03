@@ -41,7 +41,12 @@ def create_app(test_config=None):
 
     @app.after_request
     def add_security_headers(resp):
-        resp.headers['Content-Security-Policy']='default-src \'self\''
+        resp.headers['Content-Security-Policy']="default-src 'self'"
+        resp.headers["X-Frame-Options"] = "DENY"
+        resp.headers["X-Content-Type-Options"] = "nosniff"
+        resp.headers["Permissions-Policy"] = "geolocation=(), microphone=()"
+        resp.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+        resp.headers["Cross-Origin-Resource-Policy"] = "same-origin"
         return resp
 
     return app
