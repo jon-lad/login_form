@@ -13,9 +13,9 @@ jobs:
 
     steps:
       - name: set-up
-        run : sudo apt install pbr
+        run : sudo apt install python -y pip install pbr -y
       - uses: actions/checkout@v2
-      - name: Bandit - Security Issues in Python code
+      - name: Bandit - Security Issues in Python code 
         uses: mdegis/bandit-action@v1.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
