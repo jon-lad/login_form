@@ -10,6 +10,7 @@ setup(
         'flask',
         'seleniumbase',
         'faker',
-        'python-dotenv'
+        'python-dotenv',
+        'waitress'
     ],
 )

@@ -1,5 +1,5 @@
 import functools
-from utils import validate_csrf_token
+from .utils import validate_csrf_token
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, abort

@@ -1,5 +1,5 @@
 import os
-from utils import generate_csrf_token
+from .utils import generate_csrf_token
 from flask import Flask
 from dotenv import load_dotenv
 
@@ -9,7 +9,7 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY=os.environ.get('SECRET_KEY'),
+        SECRET_KEY="secret_key",
         DATABASE=os.path.join(app.instance_path, 'login_form.sqlite'),
         SESSION_COOKIE_SAMESITE='Strict', 
         SESSION_COOKIE_SECURE=True,        
@@ -58,8 +58,6 @@ def create_app(test_config=None):
         resp.headers["Permissions-Policy"] = "geolocation=(), microphone=()"
         resp.headers["Cross-Origin-Opener-Policy"] = "same-origin"
         resp.headers["Cross-Origin-Resource-Policy"] = "same-origin"
-        #supress server header
-        resp.headers["Server"] = ''
         return resp
 
     return app
