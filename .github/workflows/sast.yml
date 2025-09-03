@@ -25,6 +25,7 @@ jobs:
         uses: PyCQA/bandit-action@v1
         with:
               targets: "."
+              ini: "commands.bandit"
 
   semgrep:
     env:
