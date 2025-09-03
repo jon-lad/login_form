@@ -11,6 +11,9 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY=os.environ.get('SECRET_KEY'),
         DATABASE=os.path.join(app.instance_path, 'login_form.sqlite'),
+        SESSION_COOKIE_SAMESITE='Strict', 
+        SESSION_COOKIE_SECURE=True,        
+        SESSION_COOKIE_HTTPONLY=True 
     )
 
     app.jinja_env.globals['csrf_token'] = generate_csrf_token
@@ -41,12 +44,22 @@ def create_app(test_config=None):
 
     @app.after_request
     def add_security_headers(resp):
-        resp.headers['Content-Security-Policy']="default-src 'self'"
+        resp.headers['Content-Security-Policy']=(
+            "default-src 'self'; "
+            "script-src 'self'; "
+            "style-src 'self'; "
+            "img-src 'self'; "
+            "connect-src 'self'; "
+            "frame-ancestors 'none';"
+            "form-action 'self';"
+)
         resp.headers["X-Frame-Options"] = "DENY"
         resp.headers["X-Content-Type-Options"] = "nosniff"
         resp.headers["Permissions-Policy"] = "geolocation=(), microphone=()"
         resp.headers["Cross-Origin-Opener-Policy"] = "same-origin"
         resp.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+        #supress server header
+        resp.headers["Server"] = ''
         return resp
 
     return app
